@@ -1,0 +1,16 @@
+{
+  "url": "checkout/",
+  "header_title": "Checkout",
+  "page_title_text": "Shipping Address",
+  "firstname": "John",
+  "lastname": "Doe",
+  "street_address": "1 Main Street",
+  "city": "Houston",
+  "state": "Texas",
+  "postcode": "77002",
+  "country": "US",
+  "phone": "555-555-5555",
+  "email_welcome": "Welcome to PVC Pipe Supplies",
+  "success_message": "Thank you for your purchase!",
+  "order_email_subject": "Your PVC Pipe Supplies order confirmation"
+}

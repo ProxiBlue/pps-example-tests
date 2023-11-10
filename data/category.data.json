@@ -1,0 +1,28 @@
+{
+  "url": "pvc-valves/butterfly-valves/lug-butterfly-valves",
+  "header_title": "Lug Butterfly Valves | Lowest Price Buy Now",
+  "page_title_text": "LUG BUTTERFLY VALVES",
+  "filter_heading": "FILTER BY",
+  "sorter_price": "Price",
+  "sorter_size": "Size",
+  "ascending": "Set Ascending Direction",
+  "filters": {
+    "Valve Size":
+    {
+      "2\"": 31,
+      "3\"": 31
+    },
+    "Material": {
+      "PVC": 168,
+      "CPVC": 66
+    },
+    "Series": {},
+    "Seal Material": {},
+    "Color": {},
+    "Manufacturer": {}
+  },
+  "limiter": ["36","12","24"],
+  "breadcrums": ["Home","PVC Valves","Butterfly Valves", "Lug Butterfly Valves"],
+  "grid_mode" : "mode-grid",
+  "list_mode" : "mode-list"
+}
