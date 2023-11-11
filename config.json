@@ -9,6 +9,7 @@
     "Filters",
     "Can sort products by name ascending (a-z)",
     "Can sort products by name descending (z-a)",
-    "Can swap between list and grid view"
+    "Can swap between list and grid view",
+    "Can add to compare"
   ]
 }

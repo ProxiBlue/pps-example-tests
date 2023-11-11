@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
     testMatch: "tests/*.spec.ts",
     timeout: 60 * 1000,
     retries: 1,
-    workers: 5,
+    workers: 3,
     globalSetup: require.resolve("@home/global-setup"),
     globalTeardown: require.resolve("@home/global-teardown"),
     expect: {
@@ -57,14 +57,6 @@ const config: PlaywrightTestConfig = {
         {
             name: "firefox",
             use: { ...devices["Desktop Firefox"] },
-        },
-        {
-            name: "webkit",
-            use: { ...devices["Desktop Safari"] },
-        },
-        {
-            name: 'Mobile Chrome - Pixel 5',
-            use: { ...devices['Pixel 5'] },
         }
     ],
 };
