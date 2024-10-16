@@ -1,6 +1,6 @@
 {
   "env": {
-    "dev": { "url": "https://pvcpipesupplies244.m.uptactics.test/" },
+    "dev": { "url": "https://pvcpipesupplies.ddev.site/" },
     "live": { "url": "https://pvcpipesupplies.com/" }
   },
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
