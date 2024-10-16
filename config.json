@@ -5,11 +5,11 @@
   },
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
   "skipBaseTests": [
-    "Can perform search from homepage",
+    "it can perform search from homepage",
     "Filters",
-    "Can sort products by name ascending (a-z)",
-    "Can sort products by name descending (z-a)",
-    "Can swap between list and grid view",
-    "Can add to compare"
+    "it can sort the products by name (a-z)",
+    "it can sort the products by name (z-a)",
+    "it can switch from list to grid view",
+    "it can add multiple products to compare, and compare count indicators work."
   ]
 }

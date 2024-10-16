@@ -1,9 +1,8 @@
 import CategoryPage from "@hyva/pages/category.page";
 import type {Page, TestInfo} from "@playwright/test";
-import { test, expect } from "../fixtures";
+import { expect } from "../fixtures";
 import * as data from "../data/category.data.json";
 import * as locators from "../locators/category.locator";
-import * as pageLocators from "@hyva/locators/page.locator";
 
 export default class PPSCategoryPage extends CategoryPage {
 
@@ -49,6 +48,7 @@ export default class PPSCategoryPage extends CategoryPage {
         const countLocator = await this.page.locator(locators.toolbar_amount).last();
         await expect(await countLocator.textContent()).toContain(count.toString());
         await this.page.getByRole('link', {name: 'Remove This Item'}).click();
+
         await expect(this.page.locator(locators.active_filtering_content)).not.toBeVisible();
     }
 

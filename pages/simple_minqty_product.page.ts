@@ -1,9 +1,8 @@
 import BasePage from "@hyva/pages/base.page";
 import type { Page, TestInfo } from "@playwright/test";
-import { test, expect } from "@hyva/fixtures";
+import { expect } from "@hyva/fixtures";
 import * as actions from "@utils/base/web/actions";
 import * as locators from "@hyva/locators/product.locator";
-import * as pageLocators from "@hyva/locators/page.locator";
 import * as data from "../data/minqtysimple.data.json";
 
 
@@ -21,11 +20,11 @@ export default class SimpleMinQtyProductPage extends BasePage {
             this.locators.title,
             this.workerInfo
         );
-        await expect(titleText).toEqual(data["name"]);
+        await expect(titleText).toEqual(data.name);
     }
 
     async verifyDomTitle() {
-        await actions.verifyPageTitle(this.page, data["name"], this.workerInfo);
+        await actions.verifyPageTitle(this.page, data.name, this.workerInfo);
     }
 
     async addToCart() {
@@ -33,7 +32,7 @@ export default class SimpleMinQtyProductPage extends BasePage {
         await actions.clickElement(this.page, locators.product_add_to_cart_button, this.workerInfo);
         await actions.waitForLoadState(this.page, "networkidle", this.workerInfo);
         //await actions.verifyElementIsVisible(this.page, pageLocators.message_success, this.workerInfo);
-        //expect(await this.page.locator(pageLocators.message_success).textContent()).toContain(data["name"]);
+        //expect(await this.page.locator(pageLocators.message_success).textContent()).toContain(data.name);
     }
 
     async getProductPrice() {

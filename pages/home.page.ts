@@ -1,6 +1,6 @@
 import HomePage from "@hyva/pages/home.page";
 import type { Page, TestInfo } from "@playwright/test";
-import { test, expect } from "../fixtures";
+import { expect } from "../fixtures";
 import * as actions from "@utils/base/web/actions";
 import * as locators from "../locators/home.locator";
 import * as pageLocators from "@hyva/locators/page.locator";
@@ -30,7 +30,7 @@ export default class PPSHomePage extends HomePage {
         }
         await this.page.waitForSelector(pageLocators.pageTitle);
         const mainHeadingText = await this.page.$eval(pageLocators.pageTitle, (el) => el.textContent);
-        await expect(mainHeadingText).toContain(this.data.search_term);
+        expect(mainHeadingText).toContain(this.data.search_term);
         await actions.verifyElementIsVisible(this.page, product.productGrid, this.workerInfo);
         await expect.poll(async () => this.page.locator(product.productGridItem).count()).toBeGreaterThan(0);
     }

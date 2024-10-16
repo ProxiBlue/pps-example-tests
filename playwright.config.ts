@@ -3,8 +3,8 @@ import { PlaywrightTestConfig, devices } from "@playwright/test";
 const config: PlaywrightTestConfig = {
     testDir: process.env.TEST_BASE ? `../${process.env.TEST_BASE}/tests` : 'tests',
     testMatch: "tests/*.spec.ts",
-    timeout: 60 * 1000,
-    retries: 1,
+    timeout: 30 * 1000,
+    retries: 2,
     workers: 3,
     globalSetup: require.resolve("@home/global-setup"),
     globalTeardown: require.resolve("@home/global-teardown"),
@@ -50,17 +50,15 @@ const config: PlaywrightTestConfig = {
     projects: [
         {
             name: "chromium",
-            use: {
-                ...devices["Desktop Chrome"],
-            },
-        },
-        {
-            name: "firefox",
-            use: { ...devices["Desktop Firefox"] },
+            use: {...devices["Desktop Chrome"],},
         },
         {
             name: "webkit",
             use: { ...devices["Desktop Safari"] },
+        },
+        {
+            name: 'Microsoft Edge',
+            use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or 'msedge-dev'
         }
     ],
 };

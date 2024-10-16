@@ -4,10 +4,15 @@ import PPSCartPage from "../pages/cart.page";
 import PPSHomePage from "../pages/home.page";
 import PPSCategoryPage from "../pages/category.page";
 import minQtySimpleProductPage from "../pages/simple_minqty_product.page";
+import checkoutPage from "../../luma_checkout/pages/checkout.page";
+import { Customer } from "@hyva/fixtures/customer";
+import { CustomerData } from '@hyva/interfaces/CustomerData';
 
 type pages = {
     commonPage: CommonPage;
     minQtySimpleProductPage: minQtySimpleProductPage;
+    checkoutPage: checkoutPage;
+    customerData: CustomerData;
 };
 
 const testPages = hyvaBase.extend<pages>({
@@ -22,7 +27,15 @@ const testPages = hyvaBase.extend<pages>({
     },
     minQtySimpleProductPage: async ({ page }, use, workerInfo) => {
         await use(new minQtySimpleProductPage(page, workerInfo));
-    }
+    },
+    checkoutPage: async ({ page }, use, workerInfo) => {
+        await use(new checkoutPage(page, workerInfo));
+    },
+    customerData: async ({ page }, use) => {
+        const customer = new Customer();
+        const customerData: CustomerData = customer.getCustomerData();
+        await use(customerData);
+    },
 });
 
 export const test = testPages;
