@@ -1,18 +1,16 @@
 import { test as hyvaBase } from "@hyva/fixtures";
-import CommonPage from "@common/pages/common.page";
 import PPSCartPage from "../pages/cart.page";
 import PPSHomePage from "../pages/home.page";
 import PPSCategoryPage from "../pages/category.page";
 import minQtySimpleProductPage from "../pages/simple_minqty_product.page";
-import checkoutPage from "../../luma_checkout/pages/checkout.page";
-import { Customer } from "@hyva/fixtures/customer";
-import { CustomerData } from '@hyva/interfaces/CustomerData';
+import checkoutPage from "@checkout/pages/checkout.page";
+import AdminPage from '@admin/pages/admin.page';
+
 
 type pages = {
-    commonPage: CommonPage;
     minQtySimpleProductPage: minQtySimpleProductPage;
     checkoutPage: checkoutPage;
-    customerData: CustomerData;
+    adminPage: AdminPage;
 };
 
 const testPages = hyvaBase.extend<pages>({
@@ -31,11 +29,9 @@ const testPages = hyvaBase.extend<pages>({
     checkoutPage: async ({ page }, use, workerInfo) => {
         await use(new checkoutPage(page, workerInfo));
     },
-    customerData: async ({ page }, use) => {
-        const customer = new Customer();
-        const customerData: CustomerData = customer.getCustomerData();
-        await use(customerData);
-    },
+    adminPage: async ({ page }, use, workerInfo) => {
+        await use(new AdminPage(page, workerInfo));
+    }
 });
 
 export const test = testPages;
