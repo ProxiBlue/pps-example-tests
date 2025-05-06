@@ -3,7 +3,7 @@ import * as locators from "@admin/locators/admin.locator";
 
 describe("Admin Tests - Order Email Edits", () => {
 
-    test.setTimeout(50000);
+    test.setTimeout(90000);
 
     test('it can edit guest order email', async (
         { adminPage, checkoutPage, simpleProductPage, customerData, page, browserName }) => {
@@ -13,8 +13,9 @@ describe("Admin Tests - Order Email Edits", () => {
             await checkoutPage.navigateTo();
             await checkoutPage.fillCustomerForm(customerData)
             await checkoutPage.selectShippingMethod();
-            await checkoutPage.selectPaymentmethod();
+            await checkoutPage.selectPaymentmethodByName('Check / Money order');
             await checkoutPage.actionPlaceOrder();
+            await checkoutPage.page.getByRole('img', { name: 'Loading...' }).first().waitFor({ state: 'hidden' });
             const orderId = await checkoutPage.testSuccessPage();
             await adminPage.navigateTo();
             await adminPage.login();

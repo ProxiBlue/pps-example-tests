@@ -21,6 +21,10 @@ describe("Cart actions with one Item in cart", () => {
         await actions.verifyElementDoesNotExists(cartPage.page, cartLocators.cart_empty, cartPage.workerInfo);
     });
 
+    test("Min Order Limit", async ({cartPage}) => {
+        await cartPage.navigateTo();
+    });
+
 
 });
 

@@ -1,7 +1,7 @@
 {
   "env": {
-    "dev": { "url": "https://pvcpipesupplies.ddev.site/" },
-    "live": { "url": "https://pvcpipesupplies.com/" }
+    "dev": { "url": "https://pps-mageos110.ddev.site/" },
+    "live": { "url": "https://pps-mageos110.ddev.site/" }
   },
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
   "skipBaseTests": [
@@ -11,5 +11,6 @@
     "it can sort the products by name (z-a)",
     "it can switch from list to grid view",
     "it can add multiple products to compare, and compare count indicators work."
-  ]
+  ],
+  "faker_locale": "en_US"
 }
