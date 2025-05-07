@@ -10,7 +10,10 @@
     "it can sort the products by name (a-z)",
     "it can sort the products by name (z-a)",
     "it can switch from list to grid view",
-    "it can add multiple products to compare, and compare count indicators work."
+    "it can add multiple products to compare, and compare count indicators work.",
+    "checkout using Check / Money order",
+    "checkout using Cash on Delivery",
+    "checkout using Purchase Order"
   ],
   "faker_locale": "en_US"
 }
