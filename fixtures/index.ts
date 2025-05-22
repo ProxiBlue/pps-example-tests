@@ -5,12 +5,15 @@ import PPSCategoryPage from "../pages/category.page";
 import minQtySimpleProductPage from "../pages/simple_minqty_product.page";
 import checkoutPage from "@checkout/pages/checkout.page";
 import AdminPage from '@admin/pages/admin.page';
-
+import FormsPage from "../pages/forms.page";
+import AdminOrdersPage from "@admin/pages/orders.page";
 
 type pages = {
     minQtySimpleProductPage: minQtySimpleProductPage;
     checkoutPage: checkoutPage;
     adminPage: AdminPage;
+    formsPage: FormsPage;
+    adminOrdersPage: AdminOrdersPage;
 };
 
 const testPages = hyvaBase.extend<pages>({
@@ -31,7 +34,13 @@ const testPages = hyvaBase.extend<pages>({
     },
     adminPage: async ({ page }, use, workerInfo) => {
         await use(new AdminPage(page, workerInfo));
-    }
+    },
+    formsPage: async ({ page }, use, workerInfo) => {
+        await use(new FormsPage(page, workerInfo));
+    },
+    adminOrdersPage: async ({ page }, use, workerInfo) => {
+        await use(new AdminOrdersPage(page, workerInfo));
+    },
 });
 
 export const test = testPages;

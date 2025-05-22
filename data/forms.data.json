@@ -1,0 +1,10 @@
+{
+  "default": {
+    "homePageUrl": "/",
+    "contactPageUrl": "contact/index/",
+    "contractorQuotePageUrl": "contact?form=contractor-quote",
+    "footerSuccessMessage": "Thanks for the feedback. We'll respond to you very soon, if required.",
+    "contactSuccessMessage": "Thanks for contacting us.",
+    "contractorQuoteSuccessMessage": "Your submission has been received."
+  }
+}

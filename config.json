@@ -1,7 +1,6 @@
 {
   "env": {
-    "dev": { "url": "https://pps-mageos110.ddev.site/" },
-    "live": { "url": "https://pps-mageos110.ddev.site/" }
+    "dev": { "url": "https://pps-mageos110.ddev.site/" }
   },
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
   "skipBaseTests": [

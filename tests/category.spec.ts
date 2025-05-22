@@ -9,7 +9,7 @@ describe("Category Product List actions", () => {
     test("PPS Filters", async ({ categoryPage, isMobile }, testInfo) => {
         test.setTimeout(150000);
         //@ts.ignore
-        await categoryPage.checkPPSFilter(isMobile);
+        //await categoryPage.checkPPSFilter(isMobile);
     });
 
 

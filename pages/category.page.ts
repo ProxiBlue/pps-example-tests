@@ -11,9 +11,9 @@ export default class PPSCategoryPage extends CategoryPage {
     }
 
     async checkPPSFilter(isMobile: boolean) {
-        const filters = data.filters;
-        let filter = '';
-        let option = '';
+        const filters: Record<string, Record<string, number>> = data.default.filters;
+        let filter: string = '';
+        let option: string = '';
         for (filter in filters) {
             await this.checkPPSFilterExists(filter, isMobile);
             for (option in filters[filter]) {

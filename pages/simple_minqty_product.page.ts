@@ -1,6 +1,5 @@
 import BasePage from "@common/pages/base.page";
-import type { Page, TestInfo } from "@playwright/test";
-import { expect } from "@hyva/fixtures";
+import {Page, TestInfo, expect, test} from "@playwright/test";
 import * as actions from "@utils/base/web/actions";
 import * as locators from "@hyva/locators/product.locator";
 import * as data from "../data/minqtysimple.data.json";

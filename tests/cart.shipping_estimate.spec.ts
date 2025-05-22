@@ -11,24 +11,24 @@ describe("Cart shipping estimate with ShipperHQ", () => {
 
     test.skip("Isolated shipping rate test", async (
         { page, cartPage}) => {
-        await page.goto(process.env.URL + shippingRateData.product_1);
+        await page.goto(process.env.URL + shippingRateData.default.product_1);
         await page.fill(productLocators.product_qty_input, '1')
         await page.locator(productLocators.product_add_to_cart_button).click();
         expect(await page.locator(pageLocators.message_success).isVisible()).toBe(true);
         expect(await page.locator(pageLocators.message_success).textContent()).toContain('to your cart');
-        await page.goto(process.env.URL + shippingRateData.product_2);
+        await page.goto(process.env.URL + shippingRateData.default.product_2);
         await page.fill(productLocators.product_qty_input, '50')
         await page.locator(productLocators.product_add_to_cart_button).click();
         await page.waitForLoadState("networkidle");
         expect(await page.locator(pageLocators.message_success).isVisible()).toBe(true);
         expect(await page.locator(pageLocators.message_success).textContent()).toContain('to your cart');
         await cartPage.navigateTo();
-        expect(await page.getByText(shippingRateData.form_heading).isVisible()).toBe(true);
-        await page.selectOption(locators.region, shippingRateData.region);
+        expect(await page.getByText(shippingRateData.default.form_heading).isVisible()).toBe(true);
+        await page.selectOption(locators.region, shippingRateData.default.region);
         await page.waitForTimeout(2000);
         await page.getByLabel('zip').clear();
         await page.waitForTimeout(2000);
-        await page.getByLabel('zip').fill(shippingRateData.postcode)
+        await page.getByLabel('zip').fill(shippingRateData.default.postcode)
         await page.waitForTimeout(2000);
         await page.dispatchEvent(locators.postcode, 'input');
         const response = await page.waitForResponse(response => response.url().includes('/estimate-shipping-methods'));
@@ -66,7 +66,7 @@ describe("Cart shipping estimate with ShipperHQ", () => {
             const response = await page.waitForResponse(response => response.url().includes('/totals-information'));
             expect(response.status()).toBe(200);
             await page.locator(locators.ground_freight).check();
-            await cartPage.checkShippingMatches(shippingAmount, shippingRateData.rate_label);
+            await cartPage.checkShippingMatches(shippingAmount, shippingRateData.default.rate_label);
         }
 
     });

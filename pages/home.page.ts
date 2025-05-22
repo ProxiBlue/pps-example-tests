@@ -18,19 +18,22 @@ export default class PPSHomePage extends HomePage {
     }
 
     async canSearchFromHomepage(isMobile: boolean) {
+        // Handle both data structures: with and without 'default' property
+        const searchTerm = (this.data as { default?: { search_term: string }; search_term?: string }).default?.search_term || (this.data as { search_term?: string }).search_term;
+
         if (isMobile) {
             await this.page.click(searchSelectors.headerSearchIcon);
             await this.page.waitForSelector(searchSelectors.headerSearchFieldMobile);
-            await this.page.fill(searchSelectors.headerSearchFieldMobile, this.data.default.search_term, {force: true});
+            await this.page.fill(searchSelectors.headerSearchFieldMobile, searchTerm || "", {force: true});
             await this.page.press(searchSelectors.headerSearchFieldMobile, 'Enter');
         } else {
             await this.page.waitForSelector(searchSelectors.headerSearchField);
-            await this.page.fill(searchSelectors.headerSearchField, this.data.default.search_term);
+            await this.page.fill(searchSelectors.headerSearchField, searchTerm || "");
             await this.page.press(searchSelectors.headerSearchField, 'Enter');
         }
         await this.page.waitForSelector(pageLocators.pageTitle);
         const mainHeadingText = await this.page.$eval(pageLocators.pageTitle, (el) => el.textContent);
-        expect(mainHeadingText).toContain(this.data.default.search_term);
+        expect(mainHeadingText).toContain(searchTerm);
         await actions.verifyElementIsVisible(this.page, product.productGrid, this.workerInfo);
         await expect.poll(async () => this.page.locator(product.productGridItem).count()).toBeGreaterThan(0);
     }

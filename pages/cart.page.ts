@@ -1,6 +1,6 @@
 import CartPage from "@hyva/pages/cart.page";
 import type { Page, TestInfo } from "@playwright/test";
-import { expect } from "../fixtures";
+import { expect, test } from "../fixtures";
 import * as actions from "@utils/base/web/actions";
 
 export default class PPSCartPage extends CartPage {
