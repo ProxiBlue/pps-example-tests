@@ -10,7 +10,7 @@ describe("Cart blocks min QTY required messages", () => {
 
     test.skip("Isolated max qty in cart required", async (
         { page, cartPage, checkoutPage}) => {
-        await page.goto(process.env.URL + minqty.product);
+        await page.goto(process.env.url + minqty.product);
         await page.fill(productLocators.product_qty_input, '1')
         await page.locator(productLocators.product_add_to_cart_button).click();
         expect(await page.locator(pageLocators.message_success).isVisible()).toBe(true);

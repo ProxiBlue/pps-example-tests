@@ -1,6 +1,5 @@
 import BasePage from "@common/pages/base.page";
 import {Page, TestInfo, expect, test} from "@playwright/test";
-import * as actions from "@utils/base/web/actions";
 import * as locators from "@hyva/locators/product.locator";
 import * as data from "../data/minqtysimple.data.json";
 
@@ -14,28 +13,45 @@ export default class SimpleMinQtyProductPage extends BasePage {
     }
 
     async verifyPageTitle() {
-        const titleText = await actions.getInnerText(
-            this.page,
-            this.locators.title,
-            this.workerInfo
+        const titleText = await test.step(
+            this.workerInfo.project.name + ": Get innertext from " + this.locators.title,
+            async () => await this.page.innerText(this.locators.title)
         );
         await expect(titleText).toEqual(data.name);
     }
 
     async verifyDomTitle() {
-        await actions.verifyPageTitle(this.page, data.name, this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Verify page title is '" + data.name + "'",
+            async () => await expect(this.page).toHaveTitle(data.name)
+        );
     }
 
     async addToCart() {
-        await actions.fill(this.page, locators.product_qty_input, '1', this.workerInfo);
-        await actions.clickElement(this.page, locators.product_add_to_cart_button, this.workerInfo);
-        await actions.waitForLoadState(this.page, "networkidle", this.workerInfo);
-        //await actions.verifyElementIsVisible(this.page, pageLocators.message_success, this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Enter text: 1",
+            async () => await this.page.fill(locators.product_qty_input, '1')
+        );
+        await test.step(
+            this.workerInfo.project.name + ": Click element " + locators.product_add_to_cart_button,
+            async () => await this.page.locator(locators.product_add_to_cart_button).click()
+        );
+        await test.step(
+            this.workerInfo.project.name + ": Wait for load state networkidle",
+            async () => await this.page.waitForLoadState("networkidle")
+        );
+        //await test.step(
+        //    this.workerInfo.project.name + ": Verify element is visible " + pageLocators.message_success,
+        //    async () => expect(await this.page.locator(pageLocators.message_success).isVisible()).toBe(true)
+        //);
         //expect(await this.page.locator(pageLocators.message_success).textContent()).toContain(data.name);
     }
 
     async getProductPrice() {
-        const productPrice = await actions.getInnerText(this.page, locators.productItemPriceRegular, this.workerInfo);
+        const productPrice = await test.step(
+            this.workerInfo.project.name + ": Get innertext from " + locators.productItemPriceRegular,
+            async () => await this.page.innerText(locators.productItemPriceRegular)
+        );
         return productPrice;
     }
 

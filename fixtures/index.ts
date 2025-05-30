@@ -7,6 +7,7 @@ import checkoutPage from "@checkout/pages/checkout.page";
 import AdminPage from '@admin/pages/admin.page';
 import FormsPage from "../pages/forms.page";
 import AdminOrdersPage from "@admin/pages/orders.page";
+import PPSSearchPage from "../pages/search.page";
 
 type pages = {
     minQtySimpleProductPage: minQtySimpleProductPage;
@@ -40,6 +41,9 @@ const testPages = hyvaBase.extend<pages>({
     },
     adminOrdersPage: async ({ page }, use, workerInfo) => {
         await use(new AdminOrdersPage(page, workerInfo));
+    },
+    searchPage: async ({ page }, use, workerInfo) => {
+        await use(new PPSSearchPage(page, workerInfo));
     },
 });
 

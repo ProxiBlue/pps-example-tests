@@ -1,8 +1,8 @@
 import BasePage from "@common/pages/base.page";
-import { Page, TestInfo, expect } from "@playwright/test";
-import * as actions from "@utils/base/web/actions";
+import { Page, TestInfo, expect, test } from "@playwright/test";
 import * as locators from "../locators/forms.locator";
 import * as adminLocators from "@admin/locators/admin.locator";
+import { loadJsonData } from "@utils/functions/file";
 
 // Define the interface for the forms data structure
 interface FormsData {
@@ -19,27 +19,17 @@ interface FormsData {
   }
 }
 
-// dynamically import the test JSON data based on the APP_NAME env variable
-let data: FormsData = {"default": {
-  footerSuccessMessage: "",
-  contactSuccessMessage: "",
-  contractorQuoteSuccessMessage: ""
-}};
+// Default forms data structure
+const defaultData: FormsData = {
+  default: {
+    footerSuccessMessage: "",
+    contactSuccessMessage: "",
+    contractorQuoteSuccessMessage: ""
+  }
+};
 
-// Load data synchronously to ensure it's available when needed
-const fs = require("fs");
-try {
-    let dataPath;
-    if (fs.existsSync(__dirname + '/../../' + process.env.APP_NAME + '/data/forms.data.json')) {
-        dataPath = __dirname + '/../../' + process.env.APP_NAME + '/data/forms.data.json';
-    } else {
-        dataPath = __dirname + '/../data/forms.data.json';
-    }
-    const jsonData = fs.readFileSync(dataPath, 'utf8');
-    data = JSON.parse(jsonData);
-} catch (error) {
-    console.error(`Error loading forms data: ${error}`);
-}
+// Load the forms data using the utility function
+const data = loadJsonData<FormsData>('forms.data.json', 'pps', defaultData);
 
 export default class FormsPage extends BasePage<FormsData> {
     constructor(public page: Page, public workerInfo: TestInfo) {
@@ -64,17 +54,26 @@ export default class FormsPage extends BasePage<FormsData> {
 
     // Navigate to homepage
     async navigateToHomepage() {
-        await actions.navigateTo(this.page, process.env.URL || '', this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Go to " + (process.env.url || ''),
+            async () => await this.page.goto(process.env.url || '')
+        );
     }
 
     // Navigate to contact page
     async navigateToContactPage() {
-        await actions.navigateTo(this.page, process.env.URL + 'contact/index/', this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Go to " + (process.env.url + 'contact/index/'),
+            async () => await this.page.goto(process.env.url + 'contact/index/')
+        );
     }
 
     // Navigate to contractor quote form
     async navigateToContractorQuotePage() {
-        await actions.navigateTo(this.page, process.env.URL + 'contact?form=contractor-quote', this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Go to " + (process.env.url + 'contact?form=contractor-quote'),
+            async () => await this.page.goto(process.env.url + 'contact?form=contractor-quote')
+        );
     }
 
     // Fill and submit footer form

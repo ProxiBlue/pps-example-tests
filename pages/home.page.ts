@@ -1,7 +1,6 @@
 import HomePage from "@hyva/pages/home.page";
 import type { Page, TestInfo } from "@playwright/test";
-import { expect } from "../fixtures";
-import * as actions from "@utils/base/web/actions";
+import { expect, test } from "../fixtures";
 import * as locators from "../locators/home.locator";
 import * as pageLocators from "@hyva/locators/page.locator";
 import * as searchSelectors from "@hyva/locators/search.locator";
@@ -14,7 +13,10 @@ export default class PPSHomePage extends HomePage {
     }
 
     async verifyHasCategoryList() {
-        await actions.verifyElementExists(this.page, locators.category_grid, this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Verify element exists " + locators.category_grid,
+            async () => await expect(this.page.locator(locators.category_grid)).toHaveCount(1)
+        );
     }
 
     async canSearchFromHomepage(isMobile: boolean) {
@@ -34,7 +36,10 @@ export default class PPSHomePage extends HomePage {
         await this.page.waitForSelector(pageLocators.pageTitle);
         const mainHeadingText = await this.page.$eval(pageLocators.pageTitle, (el) => el.textContent);
         expect(mainHeadingText).toContain(searchTerm);
-        await actions.verifyElementIsVisible(this.page, product.productGrid, this.workerInfo);
+        await test.step(
+            this.workerInfo.project.name + ": Verify element is visible " + product.productGrid,
+            async () => expect(await this.page.locator(product.productGrid).isVisible()).toBe(true)
+        );
         await expect.poll(async () => this.page.locator(product.productGridItem).count()).toBeGreaterThan(0);
     }
 

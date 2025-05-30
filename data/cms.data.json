@@ -1,0 +1,9 @@
+{
+  "default": {
+    "header_title": "CMS Pages",
+    "page_title_text": "CMS Pages",
+    "wrong_page_url": "/404",
+    "error_page_title": "Page not Found",
+    "cms_titles": ["About Us", "Contact Us", "Customer Service", "Brands", "Contractor Pricing", "Exporters", "Customer Login", "Shopping Cart", "Customer Login" ,"Privacy Policy", "Terms and Conditions"]
+  }
+}

@@ -1,5 +1,4 @@
-import { test, describe } from "../fixtures";
-import * as actions from "@utils/base/web/actions";
+import { test, describe, expect } from "../fixtures";
 import * as cartLocators from "@hyva/locators/cart.locator";
 
 describe("Persistent Side Cart", () => {
@@ -11,17 +10,29 @@ describe("Persistent Side Cart", () => {
         await page.waitForLoadState('domcontentloaded');
         await page.waitForTimeout(5000);
         if (isMobile) {
-            await actions.verifyElementIsNotVisible(homePage.page, '#persistent-cart-sticky', homePage.workerInfo);
+            await test.step(
+                homePage.workerInfo.project.name + ": Verify element is NOT visible #persistent-cart-sticky",
+                async () => expect(await homePage.page.locator('#persistent-cart-sticky').isVisible()).toBe(false)
+            );
         } else {
-            await actions.verifyElementIsVisible(homePage.page, '#persistent-cart-sticky', homePage.workerInfo);
+            await test.step(
+                homePage.workerInfo.project.name + ": Verify element is visible #persistent-cart-sticky",
+                async () => expect(await homePage.page.locator('#persistent-cart-sticky').isVisible()).toBe(true)
+            );
         }
         await cartPage.page.waitForLoadState('domcontentloaded')
         await homePage.navigateTo();
         await page.waitForLoadState('domcontentloaded');
-        await actions.verifyElementIsVisible(homePage.page, '#persistent-cart-sticky', homePage.workerInfo);
+        await test.step(
+            homePage.workerInfo.project.name + ": Verify element is visible #persistent-cart-sticky",
+            async () => expect(await homePage.page.locator('#persistent-cart-sticky').isVisible()).toBe(true)
+        );
         await cartPage.navigateTo();
         await page.waitForLoadState('domcontentloaded');
-        await actions.verifyElementIsNotVisible(homePage.page, '#persistent-cart-sticky', homePage.workerInfo);
+        await test.step(
+            homePage.workerInfo.project.name + ": Verify element is NOT visible #persistent-cart-sticky",
+            async () => expect(await homePage.page.locator('#persistent-cart-sticky').isVisible()).toBe(false)
+        );
     });
 
 });

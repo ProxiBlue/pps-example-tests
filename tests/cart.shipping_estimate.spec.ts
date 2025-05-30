@@ -11,12 +11,12 @@ describe("Cart shipping estimate with ShipperHQ", () => {
 
     test.skip("Isolated shipping rate test", async (
         { page, cartPage}) => {
-        await page.goto(process.env.URL + shippingRateData.default.product_1);
+        await page.goto(process.env.url + shippingRateData.default.product_1);
         await page.fill(productLocators.product_qty_input, '1')
         await page.locator(productLocators.product_add_to_cart_button).click();
         expect(await page.locator(pageLocators.message_success).isVisible()).toBe(true);
         expect(await page.locator(pageLocators.message_success).textContent()).toContain('to your cart');
-        await page.goto(process.env.URL + shippingRateData.default.product_2);
+        await page.goto(process.env.url + shippingRateData.default.product_2);
         await page.fill(productLocators.product_qty_input, '50')
         await page.locator(productLocators.product_add_to_cart_button).click();
         await page.waitForLoadState("networkidle");

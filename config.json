@@ -1,7 +1,5 @@
 {
-  "env": {
-    "dev": { "url": "https://pps-mageos110.ddev.site/" }
-  },
+  "url": "https://pps-mageos110.ddev.site/",
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
   "skipBaseTests": [
     "it can perform search from homepage",
@@ -12,7 +10,12 @@
     "it can add multiple products to compare, and compare count indicators work.",
     "checkout using Check / Money order",
     "checkout using Cash on Delivery",
-    "checkout using Purchase Order"
+    "checkout using Purchase Order",
+    "it can show search suggestions",
+    "it can search with multiple results",
+    "it can search with no results",
+    "it can show search suggestions"
   ],
-  "faker_locale": "en_US"
+  "faker_locale": "en_US",
+  "currency_symbol": "$"
 }

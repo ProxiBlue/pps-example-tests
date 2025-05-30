@@ -11,7 +11,7 @@ export default class PPSCategoryPage extends CategoryPage {
     }
 
     async checkPPSFilter(isMobile: boolean) {
-        const filters: Record<string, Record<string, number>> = data.default.filters;
+        const filters: Record<string, Record<string, number>> = data.default.filters || [];
         let filter: string = '';
         let option: string = '';
         for (filter in filters) {
@@ -38,7 +38,6 @@ export default class PPSCategoryPage extends CategoryPage {
         const filterContainer = await this.page.locator('.filter-option', {has: filterButton});
         await expect(await filterContainer.getByRole('link', {name: option, exact: true})).toBeVisible();
         const filterOption = await filterContainer.getByRole('link', {name: option, exact: true});
-        const filterCheckbox = await filterOption.getByRole('checkbox');
         await filterOption.click();
         if(isMobile) {
             this.mobileOpenFilters()

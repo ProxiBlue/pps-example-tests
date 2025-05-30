@@ -1,7 +1,7 @@
 import CartPage from "@hyva/pages/cart.page";
 import type { Page, TestInfo } from "@playwright/test";
 import { expect, test } from "../fixtures";
-import * as actions from "@utils/base/web/actions";
+import { parsePrice } from "@utils/functions/price";
 
 export default class PPSCartPage extends CartPage {
 
@@ -16,7 +16,7 @@ export default class PPSCartPage extends CartPage {
             value = value.replace(label + ':','');
             value = value.replace(label + ' ','');
             value = value.replace(label,'');
-            expect(actions.parsePrice(value)).toEqual(total);
+            expect(parsePrice(value)).toEqual(total);
         });
     }
 
