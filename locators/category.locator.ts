@@ -28,5 +28,3 @@ export const grid_mode = '.products.wrapper.mode-grid';
 export const list_mode = '.products.wrapper.mode-list';
 
 export const product_grid = '.products.wrapper'
-
-

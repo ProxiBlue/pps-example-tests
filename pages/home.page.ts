@@ -1,11 +1,13 @@
 import HomePage from "@hyva/pages/home.page";
 import type { Page, TestInfo } from "@playwright/test";
 import { expect, test } from "../fixtures";
-import * as locators from "../locators/home.locator";
-import * as pageLocators from "@hyva/locators/page.locator";
-import * as searchSelectors from "@hyva/locators/search.locator";
-import * as product from "@hyva/locators/product.locator";
+import { loadLocators } from "@utils/functions/file";
 
+// Load the locators dynamically based on the APP_NAME environment variable
+const locators = loadLocators('locators/home.locator', 'pps');
+const pageLocators = loadLocators('locators/page.locator', 'hyva');
+const searchSelectors = loadLocators('locators/search.locator', 'hyva');
+const product = loadLocators('locators/product.locator', 'hyva');
 
 export default class PPSHomePage extends HomePage {
     constructor(public page: Page, public workerInfo: TestInfo) {

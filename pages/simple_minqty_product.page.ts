@@ -1,10 +1,13 @@
 import BasePage from "@common/pages/base.page";
 import {Page, TestInfo, expect, test} from "@playwright/test";
-import * as locators from "@hyva/locators/product.locator";
 import * as data from "../data/minqtysimple.data.json";
+import { loadLocators } from "@utils/functions/file";
 
 
 //import * as data from "../data/simple_product.data.json";
+
+// Load the locators dynamically based on the APP_NAME environment variable
+const locators = loadLocators('locators/product.locator', 'hyva');
 
 export default class SimpleMinQtyProductPage extends BasePage {
 

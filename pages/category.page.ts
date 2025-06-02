@@ -2,7 +2,10 @@ import CategoryPage from "@hyva/pages/category.page";
 import type {Page, TestInfo} from "@playwright/test";
 import { expect } from "../fixtures";
 import * as data from "../data/category.data.json";
-import * as locators from "../locators/category.locator";
+import { loadLocators } from "@utils/functions/file";
+
+// Load the locators dynamically based on the APP_NAME environment variable
+const locators = loadLocators('locators/category.locator', 'pps');
 
 export default class PPSCategoryPage extends CategoryPage {
 

@@ -1,8 +1,6 @@
 import BasePage from "@common/pages/base.page";
 import { Page, TestInfo, expect, test } from "@playwright/test";
-import * as locators from "../locators/forms.locator";
-import * as adminLocators from "@admin/locators/admin.locator";
-import { loadJsonData } from "@utils/functions/file";
+import { loadJsonData, loadLocators } from "@utils/functions/file";
 
 // Define the interface for the forms data structure
 interface FormsData {
@@ -30,6 +28,10 @@ const defaultData: FormsData = {
 
 // Load the forms data using the utility function
 const data = loadJsonData<FormsData>('forms.data.json', 'pps', defaultData);
+
+// Load the locators dynamically based on the APP_NAME environment variable
+const locators = loadLocators('locators/forms.locator', 'pps');
+const adminLocators = loadLocators('locators/admin.locator', 'admin');
 
 export default class FormsPage extends BasePage<FormsData> {
     constructor(public page: Page, public workerInfo: TestInfo) {

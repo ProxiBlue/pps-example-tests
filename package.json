@@ -5,15 +5,13 @@
   "author": "Lucas van Staden",
   "license": "MIT",
   "scripts": {
-    "test": "yarn test:hyva && yarn test:admin && yarn test:pps-admin && yarn test:pps-other && yarn test:pps-checkout",
-    "test:admin": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev TEST_BASE=admin npx playwright test --workers=1",
-    "test:hyva": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev TEST_BASE=hyva npx playwright test",
-    "test:pps-admin": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev TEST_BASE=pps npx playwright test tests/admin.spec.ts --workers=1",
-    "test:pps-other": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev TEST_BASE=pps npx playwright test --grep-invert admin.spec.ts",
-    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev TEST_BASE=checkout npx playwright test --workers=1",
-    "test:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev npx playwright test --ui",
-    "test:debug": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev PWDEBUG=1 npx playwright test",
+    "test": "yarn test:hyva && yarn test:pps-other && yarn test:pps-checkout",
+    "test:hyva": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=hyva npx playwright test",
+    "test:pps-other": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=pps npx playwright test",
+    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test",
+    "test:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --ui",
+    "test:debug": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  PWDEBUG=1 npx playwright test",
     "report": "npx playwright show-report reports/playwright-report",
-    "test:display": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps NODE_ENV=dev npx playwright test --headed"
+    "test:display": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --headed"
   }
 }
