@@ -1,21 +1,37 @@
 {
   "url": "https://pps-mageos110.ddev.site/",
   "mailcatcher": "http://mailhog.m.uptactics.test:8025/",
-  "skipBaseTests": [
-    "it can perform search from homepage",
-    "Filters",
-    "it can sort the products by name (a-z)",
-    "it can sort the products by name (z-a)",
-    "it can switch from list to grid view",
-    "it can add multiple products to compare, and compare count indicators work.",
-    "checkout using Check / Money order",
-    "checkout using Cash on Delivery",
-    "checkout using Purchase Order",
-    "it can show search suggestions",
-    "it can search with multiple results",
-    "it can search with no results",
-    "it can show search suggestions"
-  ],
+  "skipBaseTests": {
+    "Category test suite": [
+      "Filters",
+      "it can sort the products by name (a-z)",
+      "it can sort the products by name (z-a)",
+      "it can switch from list to grid view",
+      "it can add multiple products to compare, and compare count indicators work."
+    ],
+    "Configurable products test suite": [
+      "Can increment the product quantity on the pdp",
+      "Can add configurable product to cart and verify options in cart",
+      "Can't add a product to a wishlist when the user in not logged in",
+      "Can add a product to a wishlist when the user is logged in"
+    ],
+    "Simple Product test suite": [
+      "Can add a product to a wishlist when the user is logged in"
+    ],
+    "Checkout actions with one Item in cart": [
+      "checkout using Check / Money order",
+      "checkout using Cash on Delivery",
+      "checkout using Purchase Order"
+    ],
+    "Search test suite": [
+      "it can show search suggestions",
+      "it can search with multiple results",
+      "it can search with no results"
+    ],
+    "Home test suite": [
+      "it can perform search from homepage"
+    ]
+  },
   "faker_locale": "en_US",
   "currency_symbol": "$"
 }

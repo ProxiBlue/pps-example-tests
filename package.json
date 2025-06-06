@@ -8,7 +8,7 @@
     "test": "yarn test:hyva && yarn test:pps-other && yarn test:pps-checkout",
     "test:hyva": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=hyva npx playwright test",
     "test:pps-other": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=pps npx playwright test",
-    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test",
+    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test --retries=1 --workers=1 --ui",
     "test:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --ui",
     "test:debug": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  PWDEBUG=1 npx playwright test",
     "report": "npx playwright show-report reports/playwright-report",

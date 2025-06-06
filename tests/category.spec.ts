@@ -1,6 +1,6 @@
 import { test, describe } from "../fixtures";
 
-describe("Category Product List actions", () => {
+describe("Category test suite", () => {
 
     test.beforeEach(async ({ categoryPage }) => {
         await categoryPage.navigateTo();
