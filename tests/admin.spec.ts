@@ -1,5 +1,6 @@
 import { test, describe, expect } from "../fixtures";
 import * as locators from "@admin/locators/admin.locator";
+import * as customerForm from "@checkout/locators/customer_form.locator";
 
 describe("Admin Tests - Order Email Edits", () => {
 
@@ -11,6 +12,9 @@ describe("Admin Tests - Order Email Edits", () => {
             await simpleProductPage.navigateTo();
             await simpleProductPage.addToCart();
             await checkoutPage.navigateTo();
+            await adminPage.page.waitForLoadState("domcontentloaded");
+            await adminPage.page.fill(customerForm.email, customerData.email);
+            await adminPage.page.waitForLoadState("domcontentloaded");
             await checkoutPage.fillCustomerForm(customerData)
             await checkoutPage.selectShippingMethod();
             await checkoutPage.selectPaymentmethodByName('Check / Money order');

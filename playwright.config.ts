@@ -1,4 +1,5 @@
 import { PlaywrightTestConfig, devices } from "@playwright/test";
+import path from "path";
 
 const config: PlaywrightTestConfig = {
     testDir: process.env.TEST_BASE ? `../${process.env.TEST_BASE}/tests` : 'tests',
@@ -8,6 +9,7 @@ const config: PlaywrightTestConfig = {
     workers: 3,
     globalSetup: require.resolve("@home/global-setup"),
     globalTeardown: require.resolve("@home/global-teardown"),
+    outputDir: path.join(process.cwd(), '../../../test-results', `pps-${process.env.TEST_BASE || 'default'}`),
     expect: {
         timeout: 20000,
     },
@@ -16,7 +18,7 @@ const config: PlaywrightTestConfig = {
         actionTimeout: 0,
         trace: "retain-on-failure",
         ignoreHTTPSErrors: true,
-        video: "retain-on-failure",
+        video: "on",
         screenshot: "only-on-failure",
         acceptDownloads: true,
         colorScheme: "dark",
@@ -30,13 +32,13 @@ const config: PlaywrightTestConfig = {
         [
             "json",
             {
-                outputFile: "reports/json-reports/json-report.json",
+                outputFile: path.join(process.cwd(), '../../../test-results', `pps-${process.env.TEST_BASE || 'default'}-reports`, "json-reports/json-report.json"),
             },
         ],
         [
             "html",
             {
-                outputFolder: "reports/playwright-report/",
+                outputFolder: path.join(process.cwd(), '../../../test-results', `pps-${process.env.TEST_BASE || 'default'}-reports`, "playwright-report/"),
                 open: "never",
             },
         ]
@@ -46,6 +48,22 @@ const config: PlaywrightTestConfig = {
             name: "chromium",
             use: {
                 ...devices["Desktop Chrome"],
+                viewport: { width: 1280, height: 1400 },
+                ignoreHTTPSErrors: true,
+            },
+        },
+        {
+            name: "firefox",
+            use: {
+                ...devices["Desktop Firefox"],
+                viewport: { width: 1280, height: 1400 },
+                ignoreHTTPSErrors: true,
+            },
+        },
+        {
+            name: "webkit",
+            use: {
+                ...devices["Desktop Safari"],
                 viewport: { width: 1280, height: 1400 },
                 ignoreHTTPSErrors: true,
             },

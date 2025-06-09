@@ -30,6 +30,10 @@
     ],
     "Home test suite": [
       "it can perform search from homepage"
+    ],
+    "Admin Checkouts": [
+      "checkout using Cash on Delivery",
+      "checkout using Purchase Order"
     ]
   },
   "faker_locale": "en_US",
