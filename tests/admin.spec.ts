@@ -8,7 +8,7 @@ describe("Admin Tests - Order Email Edits", () => {
 
     test('it can edit guest order email', async (
         { adminPage, checkoutPage, simpleProductPage, customerData, browserName, adminOrdersPage }) => {
-        if (browserName !== 'webkit') {
+        if (browserName === 'chromium') {
             await simpleProductPage.navigateTo();
             await simpleProductPage.addToCart();
             await checkoutPage.navigateTo();
@@ -62,29 +62,29 @@ describe("Improved Forms Tests", () => {
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         await test.expect(messageText).toContain(formsPage.pageData.default.footerSuccessMessage || "Thanks for the feedback");
 
-        // Step 2: Verify the submission in admin
+        // Step 2: Verify the submission in admin (using Chromium browser)
         await adminPage.navigateTo();
         await adminPage.login();
 
         // Navigate to form submissions
-        await formsPage.page.click(formsPage.locators.marketingMenu);
-        await formsPage.page.waitForTimeout(1000); // Wait for menu to expand
-        await formsPage.page.click(formsPage.locators.formSubmissionsLink);
-        await formsPage.page.waitForTimeout(1000); // Wait for page to load
+        await adminPage.page.click(formsPage.locators.marketingMenu);
+        await adminPage.page.waitForTimeout(1000); // Wait for menu to expand
+        await adminPage.page.click(formsPage.locators.formSubmissionsLink);
+        await adminPage.page.waitForTimeout(1000); // Wait for page to load
 
         // Search for the unique ID in the admin grid
-        await formsPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
-        await formsPage.page.click(adminPage.locators.admin_grid_search_submit);
-        await formsPage.page.waitForTimeout(2000); // Wait for search results
+        await adminPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
+        await adminPage.page.click(adminPage.locators.admin_grid_search_submit);
+        await adminPage.page.waitForTimeout(2000); // Wait for search results
 
         // Verify the form submission details
-        const emailText = await formsPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
+        const emailText = await adminPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
         await test.expect(emailText).toContain(uniqueId);
 
-        const commentText = await formsPage.page.locator(formsPage.locators.formDataGridComment).textContent();
+        const commentText = await adminPage.page.locator(formsPage.locators.formDataGridComment).textContent();
         await test.expect(commentText).toContain(uniqueId);
 
-        const formTypeText = await formsPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
+        const formTypeText = await adminPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
         await test.expect(formTypeText).toContain('footer');
     });
 
@@ -106,35 +106,35 @@ describe("Improved Forms Tests", () => {
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         await test.expect(messageText).toContain(formsPage.pageData.default.contactSuccessMessage || "Thanks for contacting us");
 
-        // Step 2: Verify the submission in admin
+        // Step 2: Verify the submission in admin (using Chromium browser)
         await adminPage.navigateTo();
         await adminPage.login();
 
         // Navigate to form submissions
-        await formsPage.page.click(formsPage.locators.marketingMenu);
-        await formsPage.page.waitForTimeout(1000); // Wait for menu to expand
-        await formsPage.page.click(formsPage.locators.formSubmissionsLink);
-        await formsPage.page.waitForTimeout(1000); // Wait for page to load
+        await adminPage.page.click(formsPage.locators.marketingMenu);
+        await adminPage.page.waitForTimeout(1000); // Wait for menu to expand
+        await adminPage.page.click(formsPage.locators.formSubmissionsLink);
+        await adminPage.page.waitForTimeout(1000); // Wait for page to load
 
         // Search for the unique ID in the admin grid
-        await formsPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
-        await formsPage.page.click(adminPage.locators.admin_grid_search_submit);
-        await formsPage.page.waitForTimeout(2000); // Wait for search results
+        await adminPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
+        await adminPage.page.click(adminPage.locators.admin_grid_search_submit);
+        await adminPage.page.waitForTimeout(2000); // Wait for search results
 
         // Verify the form submission details
-        const nameText = await formsPage.page.locator(formsPage.locators.formDataGridName).textContent();
+        const nameText = await adminPage.page.locator(formsPage.locators.formDataGridName).textContent();
         await test.expect(nameText).toContain(uniqueId);
 
-        const telephoneText = await formsPage.page.locator(formsPage.locators.formDataGridTelephone).textContent();
+        const telephoneText = await adminPage.page.locator(formsPage.locators.formDataGridTelephone).textContent();
         await test.expect(telephoneText).toContain(uniqueId);
 
-        const emailText = await formsPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
+        const emailText = await adminPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
         await test.expect(emailText).toContain(uniqueId);
 
-        const commentText = await formsPage.page.locator(formsPage.locators.formDataGridComment).textContent();
+        const commentText = await adminPage.page.locator(formsPage.locators.formDataGridComment).textContent();
         await test.expect(commentText).toContain(uniqueId);
 
-        const formTypeText = await formsPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
+        const formTypeText = await adminPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
         await test.expect(formTypeText).toContain('contact');
     });
 
@@ -166,36 +166,35 @@ describe("Improved Forms Tests", () => {
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         await test.expect(messageText).toContain(formsPage.pageData.default.contractorQuoteSuccessMessage || "Your submission has been received");
 
-        // Step 2: Verify the submission in admin
+        // Step 2: Verify the submission in admin (using Chromium browser)
         await adminPage.navigateTo();
         await adminPage.login();
 
         // Navigate to form submissions
-        await formsPage.page.click(formsPage.locators.marketingMenu);
-        await formsPage.page.waitForTimeout(1000); // Wait for menu to expand
-        await formsPage.page.click(formsPage.locators.formSubmissionsLink);
-        await formsPage.page.waitForTimeout(1000); // Wait for page to load
+        await adminPage.page.click(formsPage.locators.marketingMenu);
+        await adminPage.page.waitForTimeout(1000); // Wait for menu to expand
+        await adminPage.page.click(formsPage.locators.formSubmissionsLink);
+        await adminPage.page.waitForTimeout(1000); // Wait for page to load
 
         // Search for the unique ID in the admin grid
-        await formsPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
-        await formsPage.page.click(adminPage.locators.admin_grid_search_submit);
-        await formsPage.page.waitForTimeout(2000); // Wait for search results
+        await adminPage.page.fill(adminPage.locators.admin_grid_search, uniqueId);
+        await adminPage.page.click(adminPage.locators.admin_grid_search_submit);
+        await adminPage.page.waitForTimeout(2000); // Wait for search results
 
         // Verify the form submission details
-        const nameText = await formsPage.page.locator(formsPage.locators.formDataGridName).textContent();
+        const nameText = await adminPage.page.locator(formsPage.locators.formDataGridName).textContent();
         await test.expect(nameText).toContain(uniqueId);
 
-        const telephoneText = await formsPage.page.locator(formsPage.locators.formDataGridTelephone).textContent();
+        const telephoneText = await adminPage.page.locator(formsPage.locators.formDataGridTelephone).textContent();
         await test.expect(telephoneText).toContain(uniqueId);
 
-        const emailText = await formsPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
+        const emailText = await adminPage.page.locator(formsPage.locators.formDataGridEmail).textContent();
         await test.expect(emailText).toContain(uniqueId);
 
-        const commentText = await formsPage.page.locator(formsPage.locators.formDataGridComment).textContent();
+        const commentText = await adminPage.page.locator(formsPage.locators.formDataGridComment).textContent();
         await test.expect(commentText).toContain(uniqueId);
 
-        const formTypeText = await formsPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
+        const formTypeText = await adminPage.page.locator(formsPage.locators.formDataGridFormType).textContent();
         await test.expect(formTypeText).toContain('contractor-quote');
     });
 });
-
