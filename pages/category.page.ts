@@ -2,6 +2,7 @@ import CategoryPage from "@hyva/pages/category.page";
 import type {Page, TestInfo} from "@playwright/test";
 import { expect } from "../fixtures";
 import * as data from "../data/category.data.json";
+import { CategoryPageData } from "@common/interfaces/CategoryPageData";
 import { loadLocators } from "@utils/functions/file";
 
 // Load the locators dynamically based on the APP_NAME environment variable
@@ -14,7 +15,8 @@ export default class PPSCategoryPage extends CategoryPage {
     }
 
     async checkPPSFilter(isMobile: boolean) {
-        const filters: Record<string, Record<string, number>> = data.default.filters || [];
+        const categoryData = data as CategoryPageData;
+        const filters: Record<string, Record<string, number>> = categoryData.default.filters || {};
         let filter: string = '';
         let option: string = '';
         for (filter in filters) {

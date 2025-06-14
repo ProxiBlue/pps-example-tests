@@ -12,7 +12,7 @@
     "test:admin": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=admin npx playwright test --project=chromium --retries=1",
     "test:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --ui",
     "test:debug": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  PWDEBUG=1 npx playwright test",
-    "report": "npx playwright show-report reports/playwright-report",
+    "report": "npx playwright show-report ../../../../test-results/pps-${TEST_BASE:-default}-reports/playwright-report",
     "test:display": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --headed"
   }
 }

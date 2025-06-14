@@ -1,5 +1,5 @@
 import { test as hyvaBase } from "@hyva/fixtures";
-import { BrowserContext, chromium } from "@playwright/test";
+import { BrowserContext, chromium, Page } from "@playwright/test";
 import PPSCartPage from "../pages/cart.page";
 import PPSHomePage from "../pages/home.page";
 import PPSCategoryPage from "../pages/category.page";
