@@ -123,6 +123,39 @@ describe("Theme", () => {
             });
         });
 
+        test("header icons hide when mobile menu opens", async ({ page }) => {
+            await page.setViewportSize({ width: 375, height: 800 });
+
+            await page.goto(BASE_URL);
+            await page.waitForSelector(themeLocators.header, { state: "visible" });
+
+            // Get the icons container
+            const iconsContainer = page.locator('#header .flex.items-center.order-3');
+
+            // Icons should be visible initially
+            await expect(iconsContainer).toBeVisible();
+
+            // Click hamburger menu to open
+            const mobileMenuButton = page.locator(themeLocators.mobileMenuButton).first();
+            await mobileMenuButton.click();
+
+            // Wait for menu animation
+            await page.waitForTimeout(500);
+
+            // Icons container should now be hidden
+            await expect(iconsContainer).toBeHidden();
+
+            // Close menu
+            const closeButton = page.locator('button[aria-label="Close menu"]').first();
+            await closeButton.click();
+
+            // Wait for menu to close
+            await page.waitForTimeout(500);
+
+            // Icons should be visible again
+            await expect(iconsContainer).toBeVisible();
+        });
+
     });
 
     test.describe("Header Icons Visibility", () => {
