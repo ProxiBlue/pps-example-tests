@@ -9,6 +9,10 @@ import AdminPage from '@admin/pages/admin.page';
 import FormsPage from "../pages/forms.page";
 import AdminOrdersPage from "@admin/pages/orders.page";
 import PPSSearchPage from "../pages/search.page";
+import ProductShippingEstimatorPage from "../pages/product.shipping_estimator.page";
+import PPSProductCustomOptionsPage from "../pages/product.custom_options.page";
+import AdminProductsPage from "@admin/pages/products.page";
+import AdminProductCustomOptionsPage from "@admin/pages/product.custom_options.page";
 
 type pages = {
     minQtySimpleProductPage: minQtySimpleProductPage;
@@ -18,6 +22,10 @@ type pages = {
     adminOrdersPage: AdminOrdersPage;
     adminContext: BrowserContext;
     adminBrowserPage: Page;
+    productShippingEstimatorPage: ProductShippingEstimatorPage;
+    productCustomOptionsPage: PPSProductCustomOptionsPage;
+    adminProductsPage: AdminProductsPage;
+    adminProductCustomOptionsPage: AdminProductCustomOptionsPage;
 };
 
 const testPages = hyvaBase.extend<pages>({
@@ -71,6 +79,20 @@ const testPages = hyvaBase.extend<pages>({
     },
     searchPage: async ({ page }, use, workerInfo) => {
         await use(new PPSSearchPage(page, workerInfo));
+    },
+    productShippingEstimatorPage: async ({ page }, use, workerInfo) => {
+        await use(new ProductShippingEstimatorPage(page, workerInfo));
+    },
+    productCustomOptionsPage: async ({ page }, use, workerInfo) => {
+        await use(new PPSProductCustomOptionsPage(page, workerInfo));
+    },
+    adminProductsPage: async ({ adminBrowserPage, adminPage }, use, workerInfo) => {
+        // Common admin products page - can be used by any product-related test
+        await use(new AdminProductsPage(adminBrowserPage, workerInfo, adminPage));
+    },
+    adminProductCustomOptionsPage: async ({ adminBrowserPage, adminProductsPage }, use, workerInfo) => {
+        // Custom options page composes with common products page for navigation/search/save
+        await use(new AdminProductCustomOptionsPage(adminBrowserPage, workerInfo, adminProductsPage));
     },
 });
 

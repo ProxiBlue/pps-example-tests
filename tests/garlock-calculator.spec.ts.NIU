@@ -1,0 +1,140 @@
+import { test, expect, describe } from "../fixtures";
+import config from "../config.json";
+
+describe("Garlock Calculator test suite", () => {
+    const LINK_SEAL_CATEGORY_URL = `${config.url}link-seal.html`;
+
+    test("should display Garlock calculator expandable banner on Link Seal category", async ({ page }) => {
+        test.setTimeout(60000);
+
+        // Navigate to Link Seal category
+        await page.goto(LINK_SEAL_CATEGORY_URL);
+        await page.waitForLoadState('networkidle');
+
+        // Check if calculator banner exists
+        const calculatorBanner = page.locator('#garlock-calculator-section');
+        await expect(calculatorBanner).toBeVisible({ timeout: 10000 });
+
+        // Check if toggle button exists
+        const toggleButton = calculatorBanner.locator('button');
+        await expect(toggleButton).toBeVisible();
+        await expect(toggleButton).toContainText('Garlock Link-Seal® Calculator');
+
+        // Verify banner is initially collapsed (iframe should not be visible yet)
+        const iframeContainer = calculatorBanner.locator('.garlock-iframe-container');
+        await expect(iframeContainer).toBeHidden();
+    });
+
+    test("should expand calculator banner and load iframe when clicked", async ({ page }) => {
+        test.setTimeout(90000);
+
+        // Navigate to Link Seal category
+        await page.goto(LINK_SEAL_CATEGORY_URL);
+        await page.waitForLoadState('networkidle');
+
+        // Wait for banner to be visible
+        const calculatorBanner = page.locator('#garlock-calculator-section');
+        await expect(calculatorBanner).toBeVisible({ timeout: 10000 });
+
+        // Click toggle button to expand
+        const toggleButton = calculatorBanner.locator('button');
+        await toggleButton.click();
+
+        // Wait a moment for Alpine.js animation
+        await page.waitForTimeout(1000);
+
+        // Verify iframe container is now visible
+        const iframeContainer = calculatorBanner.locator('.garlock-iframe-container');
+        await expect(iframeContainer).toBeVisible({ timeout: 5000 });
+
+        // Verify iframe exists and has correct src
+        const iframe = page.locator('#garlock-calculator-section iframe');
+        await expect(iframe).toBeVisible({ timeout: 10000 });
+
+        const iframeSrc = await iframe.getAttribute('src');
+        expect(iframeSrc).toContain('develop-sr3snxi-zvk3ecf5kwphg.us-2.platformsh.site');
+        expect(iframeSrc).toContain('link-seal-finder');
+        expect(iframeSrc).toContain('iframe=1');
+    });
+
+    test("should load Garlock calculator content inside iframe", async ({ page }) => {
+        test.setTimeout(120000);
+
+        // Navigate to Link Seal category
+        await page.goto(LINK_SEAL_CATEGORY_URL);
+        await page.waitForLoadState('networkidle');
+
+        // Expand calculator
+        const toggleButton = page.locator('#garlock-calculator-section button');
+        await toggleButton.click();
+        await page.waitForTimeout(1000);
+
+        // Wait for iframe to be visible
+        const iframe = page.locator('#garlock-calculator-section iframe');
+        await expect(iframe).toBeVisible({ timeout: 10000 });
+
+        // Wait for iframe to load
+        await page.waitForTimeout(3000);
+
+        // Verify loading indicator disappears (iframe loaded)
+        const loadingIndicator = page.locator('text=Loading Garlock Calculator');
+        await expect(loadingIndicator).toBeHidden({ timeout: 15000 });
+
+        // Verify iframe is fully loaded (check if it has content)
+        const iframeElement = await iframe.elementHandle();
+        if (iframeElement) {
+            const frame = await iframeElement.contentFrame();
+            if (frame) {
+                // Wait for frame to load
+                await frame.waitForLoadState('load', { timeout: 30000 });
+
+                // Check if frame has content (body should exist)
+                const body = frame.locator('body');
+                await expect(body).toBeVisible({ timeout: 10000 });
+
+                console.log('✓ Garlock calculator iframe loaded successfully');
+            }
+        }
+    });
+
+    test("should collapse calculator when toggle clicked again", async ({ page }) => {
+        test.setTimeout(60000);
+
+        // Navigate to Link Seal category
+        await page.goto(LINK_SEAL_CATEGORY_URL);
+        await page.waitForLoadState('networkidle');
+
+        // Expand calculator
+        const toggleButton = page.locator('#garlock-calculator-section button');
+        await toggleButton.click();
+        await page.waitForTimeout(1000);
+
+        // Verify it's expanded
+        const iframeContainer = page.locator('.garlock-iframe-container');
+        await expect(iframeContainer).toBeVisible();
+
+        // Click again to collapse
+        await toggleButton.click();
+        await page.waitForTimeout(1000);
+
+        // Verify it's collapsed
+        await expect(iframeContainer).toBeHidden({ timeout: 5000 });
+    });
+
+    test("should display calculator info footer when expanded", async ({ page }) => {
+        test.setTimeout(60000);
+
+        // Navigate to Link Seal category
+        await page.goto(LINK_SEAL_CATEGORY_URL);
+        await page.waitForLoadState('networkidle');
+
+        // Expand calculator
+        const toggleButton = page.locator('#garlock-calculator-section button');
+        await toggleButton.click();
+        await page.waitForTimeout(1000);
+
+        // Check for info footer
+        const infoFooter = page.locator('text=This calculator helps you find the perfect');
+        await expect(infoFooter).toBeVisible({ timeout: 5000 });
+    });
+});

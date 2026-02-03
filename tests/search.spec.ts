@@ -11,4 +11,16 @@ describe("Search Functionality", () => {
         await searchPage.searchForSingleProduct(isMobile);
     });
 
+    test("search suggestions work", async ({ searchPage, isMobile }, testInfo) => {
+        //@ts-ignore
+        await searchPage.checkSearchSuggestions(isMobile);
+    });
+
+    test("search suggestions add to cart work", async ({ searchPage, isMobile }, testInfo) => {
+        //@ts-ignore
+        await searchPage.checkSearchSuggestionsAddToCart(isMobile);
+    });
+
+
+
 });

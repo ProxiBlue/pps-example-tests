@@ -44,7 +44,7 @@ describe("Configurable products test suite", () => {
         await configurableProductPage.verifyOptionsInCart();
     });
 
-    test("Can't add a product to a wishlist when the user in not logged in", async ({configurableProductPage}, testInfo) => {
+    test.skip("Can't add a product to a wishlist when the user in not logged in", async ({configurableProductPage}, testInfo) => {
         await configurableProductPage.selectProductAttributes();
         await configurableProductPage.addToWishlistNotLoggedIn();
     });

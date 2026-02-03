@@ -45,6 +45,7 @@ describe("Admin Tests - Order Email Edits", () => {
 });
 
 describe("Improved Forms Tests", () => {
+    test.setTimeout(60000);
     // Combined test for footer form submission and verification in admin
     test('Can fill in footer form and verify in admin', async ({ formsPage, adminPage, browserName }) => {
         // Generate a unique ID for this test
@@ -56,8 +57,12 @@ describe("Improved Forms Tests", () => {
         await formsPage.page.fill(formsPage.locators.footerCommentField, 'Automated test comment - ' + uniqueId);
         await formsPage.page.click(formsPage.locators.footerSubmitButton);
 
-        // Verify success message
-        await formsPage.page.waitForSelector(formsPage.locators.successMessage);
+        // Verify success message - wait for navigation and message to appear
+        await formsPage.page.waitForLoadState('networkidle');
+        await formsPage.page.waitForSelector(formsPage.locators.successMessage, {
+            state: 'visible',
+            timeout: 10000
+        });
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         test.expect(messageText).toContain(formsPage.pageData.default.footerSuccessMessage || "Thanks for the feedback");
 
@@ -102,8 +107,12 @@ describe("Improved Forms Tests", () => {
         await formsPage.page.fill(formsPage.locators.contactCommentField, uniqueId);
         await formsPage.page.click(formsPage.locators.contactSubmitButton);
 
-        // Verify success message
-        await formsPage.page.waitForSelector(formsPage.locators.successMessage);
+        // Verify success message - wait for navigation and message to appear
+        await formsPage.page.waitForLoadState('networkidle');
+        await formsPage.page.waitForSelector(formsPage.locators.successMessage, {
+            state: 'visible',
+            timeout: 10000
+        });
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         test.expect(messageText).toContain(formsPage.pageData.default.contactSuccessMessage || "Thanks for contacting us");
 
@@ -164,8 +173,12 @@ describe("Improved Forms Tests", () => {
         await formsPage.page.fill(formsPage.locators.contractorCommentField, uniqueId + 'job_comment');
         await formsPage.page.click(formsPage.locators.contractorSubmitButton);
 
-        // Verify success message
-        await formsPage.page.waitForSelector(formsPage.locators.successMessage);
+        // Verify success message - wait for navigation and message to appear
+        await formsPage.page.waitForLoadState('networkidle');
+        await formsPage.page.waitForSelector(formsPage.locators.successMessage, {
+            state: 'visible',
+            timeout: 10000
+        });
         const messageText = await formsPage.page.locator(formsPage.locators.successMessage).textContent();
         test.expect(messageText).toContain(formsPage.pageData.default.contractorQuoteSuccessMessage || "Your submission has been received");
 

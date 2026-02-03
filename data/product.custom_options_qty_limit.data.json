@@ -1,0 +1,70 @@
+{
+  "product_sku": "2022-030",
+  "product_url": "3-pvc-gate-valve-soc-epdm-2022-030.html",
+  "product_name": "3\" PVC Gate Valve SOC EPDM, 2022-030",
+  "field_option": {
+    "title": "Test Field Option with Qty Limit",
+    "type": "field",
+    "qty_limit": "5"
+  },
+  "dropdown_option": {
+    "title": "Test Dropdown Option",
+    "type": "drop_down",
+    "values": [
+      {
+        "title": "Small (No Limit)",
+        "qty_limit": ""
+      },
+      {
+        "title": "Medium (Limit 3)",
+        "qty_limit": "3"
+      },
+      {
+        "title": "Large (Limit 7)",
+        "qty_limit": "7"
+      }
+    ]
+  },
+  "radio_option": {
+    "title": "Test Radio Option",
+    "type": "radio",
+    "values": [
+      {
+        "title": "Option A (No Limit)",
+        "qty_limit": ""
+      },
+      {
+        "title": "Option B (Limit 2)",
+        "qty_limit": "2"
+      },
+      {
+        "title": "Option C (Limit 5)",
+        "qty_limit": "5"
+      }
+    ]
+  },
+  "checkbox_option": {
+    "title": "Test Checkbox Option",
+    "type": "checkbox",
+    "values": [
+      {
+        "title": "Feature 1 (No Limit)",
+        "qty_limit": ""
+      },
+      {
+        "title": "Feature 2 (Limit 4)",
+        "qty_limit": "4"
+      }
+    ]
+  },
+  "test_quantities": {
+    "low": 1,
+    "medium": 3,
+    "high": 5,
+    "very_high": 10
+  },
+  "expected_field_labels": {
+    "qty_limit_label": "Max Qty Limit",
+    "qty_limit_notice": "Hide this option when product quantity >= this value"
+  }
+}

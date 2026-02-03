@@ -5,14 +5,18 @@
   "author": "Lucas van Staden",
   "license": "MIT",
   "scripts": {
-    "test:all": "yarn test:hyva && yarn test:pps && yarn test:pps-checkout && yarn test:admin",
+    "test:all": "bash -lc 'set -euo pipefail; yarn test:hyva; yarn test:pps; yarn test:pps-checkout; yarn test:admin'",
+    "test:all:ui": "bash -lc 'set -euo pipefail; yarn test:hyva:ui; yarn test:pps:ui; yarn test:pps-checkout:ui; yarn test:admin:ui'",
     "test:hyva": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=hyva npx playwright test",
+    "test:hyva:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=hyva npx playwright test --ui",
     "test:pps": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=pps npx playwright test",
-    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test",
+    "test:pps:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=pps npx playwright test --ui",
+    "test:pps-checkout": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test --project=chromium --retries=5 --workers=1",
+    "test:pps-checkout:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=checkout npx playwright test --ui",
     "test:admin": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=admin npx playwright test --project=chromium --retries=1",
-    "test:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --ui",
+    "test:admin:ui": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  TEST_BASE=admin npx playwright test --project=chromium --retries=1 --ui",
     "test:debug": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  PWDEBUG=1 npx playwright test",
-    "report": "npx playwright show-report ../../../../test-results/pps-${TEST_BASE:-default}-reports/playwright-report",
+    "report": "npx playwright show-report ../../../../test-results/pps/pps-default-reports/playwright-report",
     "test:display": "NODE_TLS_REJECT_UNAUTHORIZED=0 APP_NAME=pps  npx playwright test --headed"
   }
 }

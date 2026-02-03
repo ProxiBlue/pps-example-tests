@@ -4,7 +4,7 @@
 export const footerEmailField = '#email';
 export const footerCommentField = '#comment';
 export const footerSubmitButton = '.contact .btn';
-export const successMessage = '.message';
+export const successMessage = 'div.message.success';
 
 // Contact form locators
 export const contactNameField = '#name';

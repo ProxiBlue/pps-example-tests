@@ -1,0 +1,29 @@
+{
+  "product_with_estimator": {
+    "url": "3-4-pvc-gate-valve-soc-epdm-2022-007.html",
+    "name": "3/4\" PVC Gate Valve SOC EPDM, 2022-007",
+    "sku": "2022-007",
+    "has_estimator": true,
+    "test_zip": "75001",
+    "test_region": "Texas",
+    "test_region_id": "57"
+  },
+  "product_without_estimator": {
+    "url": "3-4-pvc-gate-valve-soc-epdm-2022-007.html",
+    "name": "3/4\" PVC Gate Valve SOC EPDM, 2022-007",
+    "sku": "2022-007",
+    "has_estimator": false,
+    "note": "This will be the same product but with show_ship_calc disabled for testing"
+  },
+  "shipping_test_data": {
+    "valid_zip": "75001",
+    "valid_region": "Texas",
+    "valid_region_id": "57",
+    "invalid_zip": "00000",
+    "california_zip": "90001",
+    "california_region": "California",
+    "california_region_id": "12",
+    "expected_min_methods": 1,
+    "note": "Expected to have at least 1 shipping method available"
+  }
+}
