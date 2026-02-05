@@ -37,7 +37,7 @@ const testPages = hyvaBase.extend<pages>({
         // Create a new context with the same options as the main context
         const context = await chromiumBrowser.newContext({
             ignoreHTTPSErrors: true,
-            viewport: { width: 1280, height: 1400 }
+            viewport: { width: 1920, height: 1080 }
         });
 
         await use(context);

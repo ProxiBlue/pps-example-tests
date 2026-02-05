@@ -2,11 +2,12 @@ import CartPage from "@hyva/pages/cart.page";
 import type { Page, TestInfo } from "@playwright/test";
 import { expect, test } from "../fixtures";
 import { parsePrice } from "@utils/functions/price";
+import * as ppsCartLocators from "../locators/cart.locator";
 
 export default class PPSCartPage extends CartPage {
 
     constructor(public page: Page, public workerInfo: TestInfo) {
-        super(page, workerInfo);
+        super(page, workerInfo, ppsCartLocators);
     }
     async checkShippingMatches(total: string, label: string) {
         await this.page.locator('#cart-totals').getByText(total).first().innerText().then((value) => {

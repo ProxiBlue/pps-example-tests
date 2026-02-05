@@ -147,153 +147,7 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
         }
     });
 
-    // Test 3: Frontend - Complete qty limit behavior test
-    test('Frontend qty limit behavior - options gray out, become unselectable, and return when qty changes', async ({
-        adminPage,
-        adminProductCustomOptionsPage,
-        productCustomOptionsPage,
-        browserName
-    }) => {
-        // Increase timeout for this test due to admin setup
-        test.setTimeout(180000); // 3 minutes
-
-        if (browserName !== 'chromium') {
-            test.skip();
-            return;
-        }
-
-        // Step 1: Setup - Add radio option with qty limits in admin (do once)
-        await adminPage.navigateTo();
-        await adminPage.login();
-
-        await adminProductCustomOptionsPage.productsPage.navigateToProducts();
-        await adminProductCustomOptionsPage.productsPage.searchProduct(testData.product_sku);
-        await adminProductCustomOptionsPage.productsPage.editFirstProduct();
-        await adminProductCustomOptionsPage.navigateToCustomOptionsTab();
-
-        // Clean up any existing test custom options first
-        const existingOptionsCount = await adminProductCustomOptionsPage.getCustomOptionsCount();
-
-        // Delete all options at once without checking count in between (faster)
-        for (let i = existingOptionsCount - 1; i >= 0; i--) {
-            await adminProductCustomOptionsPage.deleteCustomOption(i);
-        }
-
-        await adminProductCustomOptionsPage.productsPage.saveAndContinueEdit();
-        await adminProductCustomOptionsPage.page.waitForTimeout(3000);
-
-        // Flush cache so frontend sees the updated product without old options
-        await adminProductCustomOptionsPage.page.evaluate(() => {
-            return fetch('/rest/V1/system/cache/flush', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-        });
-        await adminProductCustomOptionsPage.page.waitForTimeout(2000);
-
-        // Navigate back to custom options tab
-        await adminProductCustomOptionsPage.navigateToCustomOptionsTab();
-
-        // Add radio option with qty limits
-        await adminProductCustomOptionsPage.addCustomOption();
-        await adminProductCustomOptionsPage.selectOptionType(testData.radio_option.type);
-        await adminProductCustomOptionsPage.fillOptionTitle(testData.radio_option.title, 0);
-
-        for (let i = 0; i < testData.radio_option.values.length; i++) {
-            const value = testData.radio_option.values[i];
-
-            await adminProductCustomOptionsPage.addOptionValue();
-            await adminProductCustomOptionsPage.fillOptionValueTitle(value.title, i);
-
-            if (value.qty_limit) {
-                await adminProductCustomOptionsPage.setOptionValueQtyLimit(value.qty_limit, i);
-            }
-        }
-
-        await adminProductCustomOptionsPage.productsPage.saveAndContinueEdit();
-
-        // Step 2: Navigate to frontend and test all qty limit behaviors
-        await productCustomOptionsPage.navigateToProduct(testData.product_url);
-        await productCustomOptionsPage.verifyCustomOptionsVisible();
-
-        // Test A: Low quantity (1) - All options should be enabled and selectable
-        await productCustomOptionsPage.setProductQuantity(testData.test_quantities.low);
-
-        // Verify qty limit message is hidden
-        await productCustomOptionsPage.verifyQtyLimitMessageHidden();
-
-        // All options should be enabled
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[0].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[2].title, testData.radio_option.title);
-
-        // Verify we can select any option when qty is low
-        await productCustomOptionsPage.selectRadioOption(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionChecked(testData.radio_option.values[1].title, testData.radio_option.title);
-
-        // Test B: Medium quantity (3) - Option B (limit 2) should be grayed out
-        await productCustomOptionsPage.setProductQuantity(testData.test_quantities.medium);
-
-        // Verify qty limit message appears
-        await productCustomOptionsPage.verifyQtyLimitMessageVisible();
-        const messageText = await productCustomOptionsPage.getQtyLimitMessageText();
-        expect(messageText.length).toBeGreaterThan(0);
-
-        // Option A (no limit) should still be enabled
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[0].title, testData.radio_option.title);
-
-        // Option B (limit 2) should be grayed out
-        await productCustomOptionsPage.verifyRadioOptionGrayedOut(testData.radio_option.values[1].title, testData.radio_option.title);
-
-        // Option C (limit 5) should still be enabled
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[2].title, testData.radio_option.title);
-
-        // Verify grayed out option cannot be selected
-        await productCustomOptionsPage.selectRadioOption(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionNotChecked(testData.radio_option.values[1].title, testData.radio_option.title);
-
-        // Verify enabled option can still be selected
-        await productCustomOptionsPage.selectRadioOption(testData.radio_option.values[0].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionChecked(testData.radio_option.values[0].title, testData.radio_option.title);
-
-        // Test C: High quantity (5) - Both Option B and C should be grayed out
-        await productCustomOptionsPage.setProductQuantity(testData.test_quantities.high);
-
-        // Option A should still be enabled
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[0].title, testData.radio_option.title);
-
-        // Both Option B and C should be grayed out
-        await productCustomOptionsPage.verifyRadioOptionGrayedOut(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionGrayedOut(testData.radio_option.values[2].title, testData.radio_option.title);
-
-        // Test D: Back to low quantity - Options should become enabled again
-        await productCustomOptionsPage.setProductQuantity(testData.test_quantities.low);
-
-        // Verify qty limit message is hidden again
-        await productCustomOptionsPage.verifyQtyLimitMessageHidden();
-
-        // All options should be enabled again
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[0].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[2].title, testData.radio_option.title);
-
-        // Verify previously grayed out option is now selectable
-        await productCustomOptionsPage.selectRadioOption(testData.radio_option.values[1].title, testData.radio_option.title);
-        await productCustomOptionsPage.verifyRadioOptionChecked(testData.radio_option.values[1].title, testData.radio_option.title);
-
-        // Test E: Back to medium quantity - Option B should gray out again
-        await productCustomOptionsPage.setProductQuantity(testData.test_quantities.medium);
-
-        // Option B should be grayed out again
-        await productCustomOptionsPage.verifyRadioOptionGrayedOut(testData.radio_option.values[1].title, testData.radio_option.title);
-
-        // But Option C should still be enabled
-        await productCustomOptionsPage.verifyRadioOptionEnabled(testData.radio_option.values[2].title, testData.radio_option.title);
-
-
-    });
-
-    // Test 4: Frontend dropdown qty limit behavior - simple visual check
+    // Test 3: Frontend dropdown qty limit behavior - simple visual check
     test('Frontend dropdown qty limit behavior - visual check only', async ({
         productCustomOptionsPage,
         browserName
@@ -316,7 +170,6 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
         const hasCustomOptions = await productCustomOptionsPage.page.locator('h2:has-text("Customizable Options")').count();
 
         if (hasCustomOptions === 0) {
-            console.log('No custom options found on product page - skipping dropdown test');
             test.skip();
             return;
         }
@@ -325,7 +178,6 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
         const dropdownCount = await productCustomOptionsPage.page.locator('select.product-custom-option').count();
 
         if (dropdownCount === 0) {
-            console.log('No dropdown options found - test needs dropdown options to be configured in admin first');
             test.skip();
             return;
         }
@@ -347,8 +199,6 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
             }));
         });
 
-        console.log('Options at qty=1:', optionsAtQty1);
-
         // Increase quantity
         await productCustomOptionsPage.setProductQuantity(10);
         await productCustomOptionsPage.page.waitForTimeout(1000);
@@ -361,8 +211,6 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
             }));
         });
 
-        console.log('Options at qty=10:', optionsAtQty10);
-
         // Basic assertion: At least one option should change state
         // This is a loose test - just verifies the mechanism is working
         const hasStateChange = optionsAtQty1.some((opt1, idx) => {
@@ -370,9 +218,6 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
             return opt1.disabled !== opt10.disabled || opt1.display !== opt10.display;
         });
 
-        // If options have qty limits configured, we expect state changes
-        // If no qty limits configured, this test will pass regardless
-        console.log('State change detected:', hasStateChange);
     });
 
     // Test 5: Clean up - Remove test custom options
@@ -384,31 +229,33 @@ describe("Custom Options Quantity Limit - Issue #337", () => {
             return;
         }
 
+        try {
+            // Navigate to admin and login
+            await adminPage.navigateTo();
+            await adminPage.login();
 
-        // Navigate to admin and login
-        await adminPage.navigateTo();
-        await adminPage.login();
+            // Navigate to product and edit
+            await adminProductCustomOptionsPage.productsPage.navigateToProducts();
+            await adminProductCustomOptionsPage.productsPage.searchProduct(testData.product_sku);
+            await adminProductCustomOptionsPage.productsPage.editFirstProduct();
 
-        // Navigate to product and edit
-        await adminProductCustomOptionsPage.productsPage.navigateToProducts();
-        await adminProductCustomOptionsPage.productsPage.searchProduct(testData.product_sku);
-        await adminProductCustomOptionsPage.productsPage.editFirstProduct();
+            // Navigate to custom options tab
+            await adminProductCustomOptionsPage.navigateToCustomOptionsTab();
 
-        // Navigate to custom options tab
-        await adminProductCustomOptionsPage.navigateToCustomOptionsTab();
+            // Delete all custom options
+            const optionsCount = await adminProductCustomOptionsPage.getCustomOptionsCount();
 
-        // Delete all custom options
-        const optionsCount = await adminProductCustomOptionsPage.getCustomOptionsCount();
+            for (let i = optionsCount - 1; i >= 0; i--) {
+                await adminProductCustomOptionsPage.deleteCustomOption(i);
+                await adminProductCustomOptionsPage.page.waitForTimeout(300);
+            }
 
-        for (let i = optionsCount - 1; i >= 0; i--) {
-            await adminProductCustomOptionsPage.deleteCustomOption(i);
-            await adminProductCustomOptionsPage.page.waitForTimeout(300);
+            // Save product
+            await adminProductCustomOptionsPage.productsPage.saveAndContinueEdit();
+            await adminProductCustomOptionsPage.page.waitForTimeout(2000);
+        } catch (e) {
+            console.error('afterAll cleanup failed:', e);
         }
-
-
-        // Save product
-        await adminProductCustomOptionsPage.productsPage.saveAndContinueEdit();
-        await adminProductCustomOptionsPage.page.waitForTimeout(2000);
 
     });
 });

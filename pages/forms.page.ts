@@ -82,7 +82,6 @@ export default class FormsPage extends BasePage<FormsData> {
     async fillAndSubmitFooterForm() {
         const uniqueId = Date.now().toString();
         this.setUniqueId(uniqueId);
-        console.log(uniqueId);
 
         await this.page.fill(locators.footerEmailField, uniqueId + '@example.com');
         await this.page.fill(locators.footerCommentField, 'Automated test comment - ' + uniqueId);
@@ -104,7 +103,6 @@ export default class FormsPage extends BasePage<FormsData> {
     // Verify footer form submission in admin
     async verifyFooterFormInAdmin() {
         const uniqueId = this.getUniqueId();
-        console.log(uniqueId);
         await this.page.waitForSelector(locators.formDataGrid);
 
         const emailText = await this.page.locator(locators.formDataGridEmail).textContent();
